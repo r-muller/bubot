@@ -14,8 +14,9 @@ const {
 const { Client, Intents } = require('discord.js');
 const Context = require('../../../modules/utils/Context');
 const Router = require('../../../modules/utils/Router');
+// const Worker = require('../../../modules/utils/Worker');
 
-const interactions = require('../../../modules/bubot-api/interactions');
+const interactions = require('../../../modules/interaction-api');
 
 const router = new Router('routerBase');
 // Initialize Bot
@@ -71,7 +72,13 @@ function messageContextMW() {
     return undefined;
   };
 }
-client.on('messageCreate',      router.redirect(messageContextMW(),     require('../../../modules/bubot-api/messages')));
 
+// Worker.start('./modules/worker-api/threads/index.js');
+
+client.on('messageCreate',      router.redirect(messageContextMW(),     require('../../../modules/message-api')));
+
+/**
+ * @todo
+ * faire le MiddleWare pour les interactions
+ */
 client.on('interactionCreate', interaction => interactions(Context.of({ interaction })));
-// client.on('messageCreate', message => messages(Context.of({ client, message })));

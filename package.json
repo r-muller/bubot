@@ -9,8 +9,8 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "env-cmd --fallback -f .env.test node ./apps/bubot/server/index.js",
-    "setup-interactions": "env-cmd --fallback -f .env.test node ./modules/bubot-api/interactions/interactions-setup.js"
+    "start": "env-cmd --fallback -f .env.test node --experimental-worker ./apps/bubot/server/index.js",
+    "setup-interactions": "env-cmd --fallback -f .env.test node ./modules/interaction-api/interactions-setup.js"
   },
   "dependencies": {
     "@babel/core": "^7.12.3",
