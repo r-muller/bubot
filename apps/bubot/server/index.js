@@ -58,15 +58,18 @@ const isDisableGuild = (guildId) => {
   return !!disableGuild.filter(({ id }) => id === guildId).length;
 };
 
-function messageContextMW() {
+function CreateUriMW() {
   return (context) => {
     const { guildId, content, author } = context;
 
     if (!isDisableGuild(guildId) && author.id !== clientId) {
       if (content.substring(0, 2) === '::') {
-        return context.$$mergeContext({ route: { uri: '/commande' } });
+        return context.$$mergeContext({ uri: '/commande' });
       }
-      return context.$$mergeContext({ route: { uri: '/message' } });
+      if (content.substring(0, 2) === 't:') {
+        return context.$$mergeContext({ uri: '/tournament' });
+      }
+      return context.$$mergeContext({ uri: '/message' });
     }
 
     return undefined;
@@ -75,7 +78,7 @@ function messageContextMW() {
 
 // Worker.start('./modules/worker-api/threads/index.js');
 
-client.on('messageCreate',      router.redirect(messageContextMW(),     require('../../../modules/message-api')));
+client.on('messageCreate',      router.redirect(CreateUriMW(),     require('../../../modules/routes')));
 
 /**
  * @todo

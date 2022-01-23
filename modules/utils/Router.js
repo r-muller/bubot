@@ -1,4 +1,37 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable max-len */
 const Context = require('./Context');
+
+const internals = {
+  searchBiggestRoute: (routes, uri, index = 0) => {
+    if (!routes) throw new Error('No routes give');
+
+    const uriParams = uri.split('/');
+    uriParams.shift();
+
+    if (routes.length === 1) return routes[0];
+    if (routes.length === 0) return null;
+    if (uriParams.length < index) throw Error('Number of index checked params supperior to params');
+
+    const matchRoutes = routes.filter(({ uri: route }) => {
+      const routeParams = route.split('/');
+      routeParams.shift();
+
+      if (routeParams.length < index) throw Error(`Route(${route}) is too short, or the other on the same file is too big`);
+
+      return internals.compareUriAndRouteParams(routeParams[index], uriParams[index]);
+    });
+
+    index += 1;
+    return internals.searchBiggestRoute(matchRoutes, uri, index);
+  },
+
+  compareUriAndRouteParams: (uriParam, routeParam) => {
+    if (routeParam.substring(0, 1) === ':' && uriParam) return true;
+    if (routeParam !== uriParam) return false;
+    return true;
+  },
+};
 
 module.exports = class Router {
   routes = [];
@@ -41,13 +74,23 @@ module.exports = class Router {
   }
 
   init = (context) => {
-    const { route: { uri } } = context;
+    const { uri } = context;
+    if (typeof uri !== 'string') throw new TypeError(`typeof uri must be a string actual(${typeof uri})`);
 
-    const route = this.routes.find(localRoute => localRoute.uri === uri);
+    const localRoute = internals.searchBiggestRoute(this.routes, uri);
 
-    if (!route) return undefined;
+    if (!localRoute) throw Error(`No route found for uri(${uri})`);
 
-    const newContext = route.middleware.call(this, context);
-    return route.callback.call(this, newContext);
+    const newContext = localRoute.middleware.call(this, context);
+    return localRoute.callback.call(this, newContext);
+  }
+
+  dispatch = (dispatcher) => {
+    if (typeof dispatcher !== 'function') throw new TypeError('typeof middleware must be a function');
+
+    return (context) => {
+      const newContext = dispatcher.call(this, context);
+      return this.init(newContext);
+    };
   }
 };

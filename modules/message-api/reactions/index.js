@@ -3,8 +3,8 @@ const {
 } = require('../../utils/MessageBuilder');
 
 const reactions = () => (context) => {
-  if (isBotMessage(context)) sendWandre(context);
-  // sendWandre(context);
+  // if (isBotMessage(context)) sendWandre(context);
+  sendWandre(context);
 };
 
 const isBotMessage = ({ author }) => Boolean(author.bot);
