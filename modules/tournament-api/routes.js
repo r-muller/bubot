@@ -1,12 +1,9 @@
 /* eslint-disable no-multi-spaces */
 const Router = require('../utils/Router');
+const { noMW } = require('../utils/MiddleWare');
 const dispatcher = require('./dispatcher');
 
 const routes = new Router('routerApiTounament');
-
-function noMW() {
-  return context => context;
-}
 
 routes.add('/user',   noMW(),   require('./user/user.routes'));
 

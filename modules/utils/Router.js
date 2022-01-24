@@ -11,13 +11,13 @@ const internals = {
 
     if (routes.length === 1) return routes[0];
     if (routes.length === 0) return null;
-    if (uriParams.length < index) throw Error('Number of index checked params supperior to params');
+    if (uriParams.length < index) throw Error('Number of index checked params gretter than params');
 
     const matchRoutes = routes.filter(({ uri: route }) => {
       const routeParams = route.split('/');
       routeParams.shift();
 
-      if (routeParams.length < index) throw Error(`Route(${route}) is too short, or the other on the same file is too big`);
+      if (routeParams.length < index) throw Error(`Route(${route}) is too short, or an other in the same file is too big`);
 
       return internals.compareUriAndRouteParams(routeParams[index], uriParams[index]);
     });
@@ -81,6 +81,7 @@ module.exports = class Router {
 
     if (!localRoute) throw Error(`No route found for uri(${uri})`);
 
+    const payload = internals.createPayload(localRoute, uri);
     const newContext = localRoute.middleware.call(this, context);
     return localRoute.callback.call(this, newContext);
   }
