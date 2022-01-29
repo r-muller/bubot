@@ -1,5 +1,7 @@
 # Perso
 .DS_Store
+/modules/data-dealer/*
+.vscode
 
 # Logs
 logs
