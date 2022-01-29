@@ -81,17 +81,24 @@ module.exports = class Router {
 
     if (!localRoute) throw Error(`No route found for uri(${uri})`);
 
-    const payload = internals.createPayload(localRoute, uri);
-    const newContext = localRoute.middleware.call(this, context);
-    return localRoute.callback.call(this, newContext);
+    const newContext = localRoute.middleware.call(this, context, localRoute);
+    return localRoute.callback.call(this, newContext, localRoute);
   }
 
-  dispatch = (dispatcher) => {
-    if (typeof dispatcher !== 'function') throw new TypeError('typeof middleware must be a function');
+  dispatch = () => (context) => {
+    // const newContext = dispatcher.call(this, context);
+    const { uri, ...payload } = context.$$context;
+    const { commande, args } = payload;
 
-    return (context) => {
-      const newContext = dispatcher.call(this, context);
-      return this.init(newContext);
-    };
+    const params = args.length
+      ? args.reduce((acc, arg) => {
+        // eslint-disable-next-line no-param-reassign
+        acc += `/${arg}`;
+        return acc;
+      }, '')
+      : '';
+
+    const newUri = `/${commande}${params}`;
+    return this.init(Context.of({ uri: newUri, ...payload }));
   }
 };
