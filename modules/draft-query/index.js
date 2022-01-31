@@ -3,12 +3,12 @@ const User = require('../data-dealer/User');
 
 const payload = {
   username: 'Acri',
-  rank: 1,
+  descriminator: '0318',
   extrefId: '<@!226722927838625792>',
 };
 
 const query = User.query()
-  .insertGraphAndFetch(payload);
+  .insertAndFetch(payload);
 
 Promise.resolve()
   .then(() => query)

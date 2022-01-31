@@ -9,8 +9,9 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "test:local:query": "env-cmd --fallback -f .env.test node ./modules/draft-query/index.js",
     "start:local": "env-cmd --fallback -f .env.test node --experimental-worker ./apps/bubot/server/index.js",
+    "test:local": "env-cmd --fallback -f .env.test run-test --run '**/*.test.js' --",
+    "test:local:query": "env-cmd --fallback -f .env.test node ./modules/draft-query/index.js",
     "ddg:local": "env-cmd --fallback -f .env.test node ./modules/data-dealer-generator/index.js && yarn",
     "dbsetup:local": "env-cmd --fallback -f .env.test node ./modules/db-setup/run.js",
     "setup-interactions": "env-cmd --fallback -f .env.test node ./modules/interaction-api/interactions-setup.js"
@@ -23,10 +24,12 @@
     "@babel/register": "^7.12.1",
     "@discordjs/builders": "^0.9.0",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "chai": "^4.3.6",
     "debug-level": "^2.1.2",
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
     "env-cmd": "^10.1.0",
+    "joi": "^17.6.0",
     "knex": "^1.0.1",
     "nodejs": "^0.0.0",
     "objection": "^3.0.1",

@@ -1,57 +1,75 @@
 const Router = require('../../utils/Router');
-const { noMW } = require('../../utils/MiddleWare');
-// const dispatcher = require('../dispatcher');
 
 const routes = new Router('routerApiTounamentUser');
 
-/**
- * @todo create Payload in this MW
- */
-function ContextMW() {
-  return (context, endpoint) => {
-    const { uri } = context;
-    const { uri: route } = endpoint;
-    console.log('🚀 ~ file: user.routes.js ~ line 12 ~ return ~ uri, route', uri, route);
+const { ReqParamsMW } = require('../../utils/MiddleWare');
 
-    const payload = {};
-    const routeParams = route.split('/');
-    const uriParams = uri.split('/');
+const UserControllers = require('./user.controllers');
 
-    routeParams.forEach((param, index) => {
-      if (param.substring(0, 1) === ':') {
-        const key = param.substring(1, param.length);
-        payload[key] = uriParams[index];
-      }
-    });
+const getUsersMentioned = (context) => {
+  const { reactions: { message } } = context;
+  if (!message) throw Error('No reactions in context');
+  if (!message.mentions) throw Error('No mentions in context');
+  if (!message.mentions.users) throw Error('No users in context');
 
-    /**
-     * @todo recuper les mentions dans
-     * const { reactions: { message: { mentions } } } = context;
-     *
-     * pour connaitre le username et le discriminator de l'extrefId passé a la route
-     * cette fonction auras aussi le role de "ruler" car elle pourras throw des erreurs
-     */
-
-    context.$$mergeContext({ payload });
-    return context;
-  };
-}
+  const { mentions: { users } } = context;
+  return users;
+};
 
 /**
  * t:user add :extrefId
  */
-routes.add('/user/add/:extrefId', ContextMW(), (context) => {
-  const { payload } = context;
-  console.log('🚀 ~ file: user.routes.js ~ line 33 ~ routes.add ~ payload', payload);
+routes.add('/user/add/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
+  const { reqParams } = context;
+
+  return Promise.resolve()
+    .then(() => {
+      const users = getUsersMentioned(context);
+
+      const user = users.find(({ id }) => id === reqParams.extrefId.match(/\d+/g)[0]);
+      const { username, discriminator } = user;
+      return {
+        ...reqParams,
+        username,
+        discriminator,
+      };
+    })
+    .then(context.$$mergeAndForward('payload'))
+    .then(() => UserControllers.create(context))
+    .then((newData) => {
+      console.log('🚀 ~ file: user.routes.js ~ line 40 ~ .then ~ newData', newData);
+    })
+    .catch((e) => {
+      console.log('🚀 ~ file: user.routes.js ~ line 43 ~ routes.add ~ e', e);
+    });
 });
 
 /**
  * t:user add :extrefId rank :rank
  */
-routes.add('/user/update/:extrefId/rank/:rank', ContextMW(), (context) => {
-  const { payload } = context;
-  console.log('🚀 ~ file: user.routes.js ~ line 37 ~ routes.add ~ context', context.reactions.message.mentions);
-  console.log('🚀 ~ file: user.routes.js ~ line 37 ~ routes.update ~ payload', payload);
+routes.add('/user/update/:extrefId/rank/:rank', ReqParamsMW({ useTrx: true }), (context) => {
+  const { reqParams } = context;
+
+  return Promise.resolve()
+    .then(() => {
+      const users = getUsersMentioned(context);
+
+      const user = users.find(({ id }) => id === reqParams.extrefId.match(/\d+/g)[0]);
+      const { username, discriminator } = user;
+      return {
+        ...reqParams,
+        username,
+        discriminator,
+      };
+    })
+    .then(context.$$mergeAndForward('payload'))
+    .then(() => UserControllers.update(context))
+    .then((newData) => {
+      console.log('🚀 ~ file: user.routes.js ~ line 68 ~ .then ~ newData', newData);
+    })
+    .catch((e) => {
+      console.log('🚀 ~ file: user.routes.js ~ line 71 ~ routes.update ~ e', e);
+    });
 });
 
 module.exports = routes.dispatch();
