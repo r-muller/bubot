@@ -9,16 +9,23 @@
     "node": ">=16.0.0"
   },
   "private": true,
-  "workspaces": [
-    "modules/*",
-    "apps/*"
-  ],
   "scripts": {
-    "start:local": "env-cmd --fallback -f .env.test node --experimental-worker ./apps/bubot/server/index.js",
-    "test:local:query": "env-cmd --fallback -f .env.test node ./modules/draft-query/index.js",
-    "ddg:local": "env-cmd --fallback -f .env.test node ./modules/data-dealer-generator/index.js && yarn",
-    "dbsetup:local": "env-cmd --fallback -f .env.test node ./modules/db-setup/run.js",
-    "setup-interactions": "env-cmd --fallback -f .env.test node ./modules/interaction-api/interactions-setup.js"
+    "start:local": "env-cmd --fallback -f .env.test node --experimental-worker ./server/index.js",
+    "test:local": "env-cmd --fallback -f .env.test run-test --run '**/*.test.js' --",
+    "test:local:query": "env-cmd --fallback -f .env.test node ../../modules/draft-query/index.js",
+    "ddg:local": "env-cmd --fallback -f .env.test node ../../modules/data-dealer-generator/index.js && yarn",
+    "dbsetup:local": "env-cmd --fallback -f .env.test node ../../modules/db-setup/run.js",
+    "setup-interactions": "env-cmd --fallback -f .env.test node ../../modules/interaction-api/interactions-setup.js"
+  },
+  "runTestConfig": {
+    "setup": "./setup-test/start.js",
+    "teardown": "./setup-test/end.js",
+    "includes": [
+      "setup-test/setup.test.js"
+    ],
+    "modules": [
+      "@bubot/tournament-api"
+    ]
   },
   "dependencies": {
     "@babel/core": "^7.12.3",
