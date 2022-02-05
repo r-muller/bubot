@@ -17,9 +17,9 @@ function noMW() {
   return context => context;
 }
 
-routes.add('/commande',     commandeContextMW(),    require('../message-api/commands')());
-routes.add('/message',      noMW(),                 require('../message-api/reactions')());
+routes.add('/commande',     commandeContextMW(),    require('../api-message/commands')());
+routes.add('/message',      noMW(),                 require('../api-message/reactions')());
 
-routes.add('/tournament',   commandeContextMW(),    require('../tournament-api/routes'));
+routes.add('/tournament',   commandeContextMW(),    require('../api-tournament/routes'));
 
 module.exports = routes;

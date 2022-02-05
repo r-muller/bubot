@@ -16,7 +16,7 @@ const Context = require('../../../modules/utils/Context');
 const Router = require('../../../modules/utils/Router');
 // const Worker = require('../../../modules/utils/Worker');
 
-const interactions = require('../../../modules/interaction-api');
+const interactions = require('../../../modules/api-interaction');
 
 const router = new Router('routerBase');
 // Initialize Bot
