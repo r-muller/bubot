@@ -1,5 +1,5 @@
 {
-  "name": "@bubot/tournament-api",
+  "name": "@bubot/api-tournament",
   "version": "0.0.1",
   "main": "routes.js",
   "private": true,

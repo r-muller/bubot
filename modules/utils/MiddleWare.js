@@ -22,9 +22,11 @@ function ReqParamsMW({ useTrx = false } = {}) {
     });
 
     if (useTrx) {
-      return Model.startTransaction()
+      Model.startTransaction()
         .then((trx) => {
+          console.log('🚀 ~ file: MiddleWare.js ~ line 32 ~ return ~ context', context);
           context.$$mergeContext({ hasTrx: true, trx });
+          return context;
         });
     }
 

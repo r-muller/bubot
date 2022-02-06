@@ -1,14 +1,14 @@
 const Router = require('@bubot/utils/Router');
 const { ReqParamsMW } = require('@bubot/utils/MiddleWare');
 
-const UserControllers = require('./user.controllers');
+const UserControllers = require('./invitation.controllers');
 
-const routes = new Router('routerApiTounamentUser');
+const routes = new Router('routerApiTounamentInvitation');
 
 /**
- * t:user add :extrefId
+ * t:invite :extrefId
  */
-routes.add('/user/add/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
+routes.add('/invit/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
   console.log('🚀 ~ file: user.routes.js ~ line 24 ~ routes.add ~ context', context.reqParams);
 
   return Promise.resolve()
@@ -22,7 +22,7 @@ routes.add('/user/add/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
 });
 
 /**
- * t:user add :extrefId rank :rank
+ * t:invite :iid :
  */
 routes.add('/user/update/:extrefId/rank/:rank', ReqParamsMW({ useTrx: true }), (context) => {
   console.log('🚀 ~ file: user.routes.js ~ line 50 ~ routes.add ~ context', context.reqParams);

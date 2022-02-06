@@ -24,7 +24,7 @@
       "setup-test/setup.test.js"
     ],
     "modules": [
-      "@bubot/tournament-api"
+      "@bubot/api-tournament"
     ]
   },
   "dependencies": {

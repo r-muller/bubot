@@ -3,6 +3,6 @@ module.exports = {
     rename: 'duel',
   },
   fromInvitationTableIidToUserHasInvitationTableInvitationIid: {
-    rename: 'userHasInvitation',
+    rename: 'hasUser',
   },
 };

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const fs = require('fs').promises;
 const path = require('path');
-const database = require('../utils/knex');
+const database = require('@bubot/utils/knex');
 const relationNames = require('./relationNames');
 const extend = require('./extends');
 const tableIdColumn = require('./tableIdColumn');
@@ -19,13 +19,14 @@ const { template, packageJsonTemplate } = require('./template');
 const context = {};
 
 const generateTemplate = () => Promise.resolve()
-  .then(() => fs.rmdir(path.join(__dirname, '../data-dealer'), { recursive: true }))
+  .then(() => fs.rm(path.join(__dirname, '../data-dealer'), { recursive: true }))
   .then(() => fs.mkdir(path.join(__dirname, '../data-dealer'), { recursive: true }))
   .then(() => fs.writeFile(path.join(__dirname, '../data-dealer/package.json'), packageJsonTemplate()))
   .then(() => Promise.all(Object.values(context.rewamp)
     .map((data) => {
       const { relations, className, table } = data;
       const columnData = context.keys[table];
+      // console.log('🚀 ~ file: index.js ~ line 29 ~ .map ~ context.keys[table]', table, context.keys[table]);
 
       const rs = relations
         .map((r) => {

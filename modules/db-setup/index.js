@@ -5,7 +5,7 @@ const Log = require('debug-level')('db-setup');
 
 const { Client } = require('pg');
 
-// let files = require('@clark/db-setup/common');
+const files = require('@bubot/db-setup/common');
 
 // if (process.env.SETUP === 'light') files = require('@clark/db-setup/empty');
 // if (process.env.SETUP === 'lex') files = require('@clark/db-setup/lex');
@@ -80,7 +80,7 @@ class DbSetup {
     return Promise.resolve()
       .then(() => client.query('SELECT truncate_tables();'))
 
-    // .then(() => files({ client, fs }))
+      .then(() => files({ client, fs }))
 
     // .then(() => client.query(fs('triggers')))
     // .catch((e) => {

@@ -1,14 +1,14 @@
 /* eslint-disable no-process-exit */
-const User = require('../data-dealer/User');
+const User = require('@bubot/data-dealer/User');
 
 const payload = {
   username: 'Acri',
-  descriminator: '0318',
-  extrefId: '<@!226722927838625792>',
+  discriminator: '0317',
+  extrefId: '<@!226722927838625791>',
 };
 
 const query = User.query()
-  .insertAndFetch(payload);
+  .withGraphJoined('rank');
 
 Promise.resolve()
   .then(() => query)

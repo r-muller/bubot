@@ -1,9 +1,9 @@
-const Template = require('../../../../data-dealer/User');
-const Action = require('../../../../utils/Action');
+const User = require('@bubot/data-dealer/User');
+const Action = require('@bubot/utils/Action');
 
 module.exports = class Setup extends Action {
   action = {
-    insertTemplate() {
+    insertUser() {
       const context = this.context();
       const dataset = () => ({
         username: 'tournementApiUserUsername',
@@ -11,7 +11,7 @@ module.exports = class Setup extends Action {
         extrefId: '<!tournementApiUserExtrefId>',
       });
 
-      return Template.query()
+      return User.query()
         .insertAndFetch(dataset(context))
         .then(newData => context.$$mergeContext({ newData }));
     },

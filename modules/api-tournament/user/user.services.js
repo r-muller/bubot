@@ -25,7 +25,8 @@ module.exports = class ContactPlatformServices {
    * @return {promise}
    */
   static report({ trx }) {
-    return User.query(trx);
+    return User.query(trx)
+      .withGraphJoined('rank');
   }
 
   /**
@@ -51,8 +52,24 @@ module.exports = class ContactPlatformServices {
    *
    * @return  {promise}
    */
-  static update({ payload: { uid, ...payload }, trx }) {
+  static update({ payload: { extrefId, ...payload }, trx }) {
     return User.query(trx)
-      .updateAndFetchById(uid, payload);
+      .where('extrefId', extrefId)
+      .updateAndFetch(payload);
+  }
+
+  /**
+   * [deleteByExtrefId description]
+   *
+   * @param   {Object}     payload
+   * @param   {Object}     httpQuery               [httpQuery description]
+   * @param   {Knex}       trx                     [trx description]
+   *
+   * @return  {promise}
+   */
+  static deleteByExtrefId({ payload: { extrefId }, trx }) {
+    return User.query(trx)
+      .where('extrefId', extrefId)
+      .delete();
   }
 };

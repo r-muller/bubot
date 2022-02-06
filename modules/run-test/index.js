@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-disable object-curly-newline */
+/* eslint-disable spaced-comment */
 /* eslint-disable no-process-exit */
 
 /*
@@ -70,16 +72,16 @@ const checkFn = (fn) => {
 // Stub setup and teardown if not provided in config
 let setupFunction = () => Promise.resolve();
 let teardownFunction = () => Promise.resolve();
-// const includeArgs = [];
+const includeArgs = [];
 const testPath = [];
 // Use setup and teardown if config was provided
 if (runTestConfig) {
   const { setup, teardown, includes, modules } = runTestConfig;
   if (setup) setupFunction = checkFn(require(resolveFile(cwd, setup)));
   if (teardown) teardownFunction = checkFn(require(resolveFile(cwd, teardown)));
-  // if (includes && includes.length > 0) {
-  //   includeArgs.push(...includes.flatMap(file => ['--file', file]));
-  // }
+  if (includes && includes.length > 0) {
+    includeArgs.push(...includes.flatMap(file => ['--file', file]));
+  }
   if (modules) {
     testPath.push(...modules.map(module => dirname(require.resolve(module))));
   }
@@ -87,7 +89,7 @@ if (runTestConfig) {
 
 // Get command line args to be forwarded to mocha
 const mochaArgs = [
-  // ...includeArgs,
+  ...includeArgs,
   ...(argv.run.flatMap(pattern => testPath.map(path => join(path, pattern)))),
   ...argv._,
 ];

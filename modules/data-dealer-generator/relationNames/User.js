@@ -1,5 +1,8 @@
 module.exports = {
   fromUserTableUidToUserHasInvitationTableUserUid: {
-    rename: 'invitations',
+    rename: 'hasInvitation',
+  },
+  fromUserTableUidToUserRankTableUserUid: {
+    rename: 'rank',
   },
 };

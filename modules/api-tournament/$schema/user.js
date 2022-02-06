@@ -13,12 +13,8 @@ const UserBaseSc = Joi.object().keys({
   discriminator: Joi.string().required(),
 }).concat(UserExtrefIdSc);
 
-const UserNewDataSc = Joi.object().keys({
-  rank: Joi.number().required(),
-}).concat(UserBaseSc).concat(UidSc);
-
 module.exports = {
   UidSc,
   UserBaseSc,
-  UserNewDataSc,
+  UserNewDataSc: UserBaseSc.concat(UidSc),
 };

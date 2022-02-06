@@ -12,9 +12,9 @@ describe('[Services] TournamentApiUser', () => {
     before(() => require('./setup/common').run(testContext));
 
     it('Should return proper dataset', () => UserServices
-      .report()
+      .report({})
       .then((users) => {
-        expect(users.length).to.be.equal(undefined);
+        expect(users.length).to.be.greaterThanOrEqual(1);
         users.forEach((user) => {
           expect(UserNewDataSc.validate(user).error).to.be.equal(undefined);
         });
@@ -65,10 +65,10 @@ describe('[Services] TournamentApiUser', () => {
     before(() => require('./setup/common').run(testContext));
 
     it('Should delete and return nbr of row deleted(1)', () => {
-      const { uid } = require('./dataset/update')(testContext);
+      const { extrefId } = require('./dataset/update')(testContext);
 
       return UserServices
-        .delete(Context.of({ payload: { uid } }))
+        .deleteByExtrefId(Context.of({ payload: { extrefId } }))
         .then((deletedRow) => {
           expect(deletedRow).to.be.equal(1);
         });
