@@ -5,7 +5,7 @@
 -- Dumped from database version 12.8
 -- Dumped by pg_dump version 13.4
 
--- Started on 2022-02-06 15:52:04 CET
+-- Started on 2022-02-12 16:28:54 CET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ BEGIN
 
 INSERT INTO public.user_rank
 (user_uid, rank)
-	SELECT uid, uid FROM NEW;
+	VALUES (new."uid", new."uid");
 
 RETURN NEW;
 END;
@@ -201,6 +201,9 @@ COPY public.invitation (iid, status, created_on, ended_on) FROM stdin;
 --
 
 COPY public."user" (uid, username, discriminator, extref_id) FROM stdin;
+1	Acri	0317	<@!226722927838625791>
+2	Quoko	0317	<@!226722927838625792>
+3	Xala	0317	<@!226722927838625793>
 \.
 
 
@@ -221,6 +224,9 @@ COPY public.user_has_invitation (user_uid, invitation_iid, is_owner) FROM stdin;
 --
 
 COPY public.user_rank (user_uid, rank) FROM stdin;
+1	1
+2	2
+3	3
 \.
 
 
@@ -239,7 +245,7 @@ SELECT pg_catalog.setval('public.duel_did_seq', 1, false);
 -- Name: user_uid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_uid_seq', 1, true);
+SELECT pg_catalog.setval('public.user_uid_seq', 3, true);
 
 
 --
@@ -350,12 +356,12 @@ ALTER TABLE ONLY public.user_has_invitation
 
 
 --
--- TOC entry 3099 (class 2606 OID 1575206)
+-- TOC entry 3099 (class 2606 OID 1575478)
 -- Name: user_rank Ref_user_rank_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.user_rank
-    ADD CONSTRAINT "Ref_user_rank_to_user" FOREIGN KEY (user_uid) REFERENCES public."user"(uid);
+    ADD CONSTRAINT "Ref_user_rank_to_user" FOREIGN KEY (user_uid) REFERENCES public."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
 
 
 --
@@ -412,7 +418,7 @@ GRANT ALL ON TABLE public.user_has_invitation TO "Dev" WITH GRANT OPTION;
 GRANT ALL ON TABLE public.user_rank TO "Dev" WITH GRANT OPTION;
 
 
--- Completed on 2022-02-06 15:52:04 CET
+-- Completed on 2022-02-12 16:28:54 CET
 
 --
 -- PostgreSQL database dump complete
