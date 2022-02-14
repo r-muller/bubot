@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+const { UserRankNewDataSc } = require('./userRank');
+
 const UidSc = Joi.object().keys({
   uid: Joi.number().required(),
 });
@@ -13,8 +15,13 @@ const UserBaseSc = Joi.object().keys({
   discriminator: Joi.string().required(),
 }).concat(UserExtrefIdSc);
 
+const UserWithRankNestingNewDataSc = Joi.object().keys({
+  rank: Joi.array().items(UserRankNewDataSc).required(),
+}).concat(UserBaseSc).concat(UidSc);
+
 module.exports = {
   UidSc,
   UserBaseSc,
   UserNewDataSc: UserBaseSc.concat(UidSc),
+  UserWithRankNestingNewDataSc,
 };

@@ -8,7 +8,7 @@ const payload = {
 };
 
 const query = User.query()
-  .withGraphJoined('rank');
+  .insertAndFetch(payload);
 
 Promise.resolve()
   .then(() => query)

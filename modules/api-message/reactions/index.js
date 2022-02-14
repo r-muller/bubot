@@ -1,6 +1,6 @@
 const {
   mentionUser,
-} = require('../../utils/MessageBuilder');
+} = require('@bubot/utils/MessageBuilder');
 
 const reactions = () => (context) => {
   // if (isBotMessage(context)) sendWandre(context);
