@@ -8,17 +8,16 @@
 
 const {
   DISCORD_token: token,
-  DISCORD_clientId: clientId,
 } = process.env;
 
 const { Client, Intents } = require('discord.js');
-const Context = require('../../../modules/utils/Context');
-const Router = require('../../../modules/utils/Router');
+const Context = require('@bubot/utils/Context');
 // const Worker = require('../../../modules/utils/Worker');
+
+const commandsRouter = require('./router');
 
 const interactions = require('../../../modules/api-interaction');
 
-const router = new Router('routerBase');
 // Initialize Bot
 const client = new Client({
   intents: [
@@ -42,46 +41,24 @@ const client = new Client({
     Intents.FLAGS.DIRECT_MESSAGE_TYPING,
   ],
 });
-client.login(token);
 
-client.on('ready', () => {
-  const Guilds = client.guilds.cache.map(guild => guild.id);
-  console.log('Connected to:', Guilds);
-  console.log('Logged in as: ', client.user.tag);
-});
+function startDiscordServer(dsClient) {
+  return Promise.resolve()
+    .then(() => dsClient.login(token))
+    .then(() => dsClient.on('ready', () => {
+      const Guilds = dsClient.guilds.cache.map(guild => guild.id);
+      console.log('Connected to:', Guilds);
+      console.log('Logged in as: ', dsClient.user.tag);
+    }))
+    .then(() => dsClient.on('messageCreate',  commandsRouter))
 
-const isDisableGuild = (guildId) => {
-  const disableGuild = [
-    { label: 'UbuBotSchool', id: '917834959522246666' },
-  ];
-
-  return !!disableGuild.filter(({ id }) => id === guildId).length;
-};
-
-function CreateUriMW() {
-  return (context) => {
-    const { guildId, content, author } = context;
-
-    if (!isDisableGuild(guildId) && author.id !== clientId) {
-      if (content.substring(0, 2) === '::') {
-        return context.$$mergeContext({ uri: '/commande' });
-      }
-      if (content.substring(0, 2) === 't:') {
-        return context.$$mergeContext({ uri: '/tournament' });
-      }
-      return context.$$mergeContext({ uri: '/message' });
-    }
-
-    return undefined;
-  };
+  /**
+   * @todo
+   * faire le MiddleWare pour les interactions
+   */
+    .then(() => dsClient.on('interactionCreate', interaction => interactions(Context.of({ interaction }))));
 }
 
+startDiscordServer(client);
+
 // Worker.start('./modules/worker-api/threads/index.js');
-
-client.on('messageCreate',      router.redirect(CreateUriMW(),     require('../../../modules/routes')));
-
-/**
- * @todo
- * faire le MiddleWare pour les interactions
- */
-client.on('interactionCreate', interaction => interactions(Context.of({ interaction })));

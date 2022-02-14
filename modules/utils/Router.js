@@ -46,12 +46,12 @@ module.exports = class Router {
     if (typeof middleware !== 'function') throw new TypeError('typeof middleware must be a function');
     if (typeof router !== 'object') throw new TypeError('typeof router must be a object (class Router)');
 
-    return (...args) => {
-      const context = middleware(Context.of({ ...args[0] }));
-
-      if (!context) return undefined;
-      return router.init(context);
-    };
+    return (...args) => Promise.resolve()
+      .then(() => middleware(Context.of({ ...args[0] })))
+      .then((context) => {
+        if (!context) return undefined;
+        return router.init(context);
+      });
   }
 
   add = (uri, middleware, callback) => {
@@ -81,8 +81,9 @@ module.exports = class Router {
 
     if (!localRoute) throw Error(`No route found for uri(${uri})`);
 
-    const newContext = localRoute.middleware.call(this, context, localRoute);
-    return localRoute.callback.call(this, newContext, localRoute);
+    return Promise.resolve()
+      .then(() => localRoute.middleware.call(this, context, localRoute))
+      .then(newContext => localRoute.callback.call(this, newContext, localRoute));
   }
 
   dispatch = () => (context) => {

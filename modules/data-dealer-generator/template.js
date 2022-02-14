@@ -67,7 +67,7 @@ const template = ({
 const { Model, val } = require('objection');
 const path = require('path');
 
-const knex = require('../utils/knex');
+const knex = require('@bubot/utils/knex');
 
 Model.knex(knex);
 
@@ -115,7 +115,7 @@ module.exports = class ${className} extends Model {
 const { Model, val } = require('objection');
 // const path = require('path');
 
-const knex = require('../utils/knex');
+const knex = require('@bubot/utils/knex');
 
 Model.knex(knex);
 

@@ -1,5 +1,5 @@
-const dbSetup = require('@clark/db-setup');
-const knex = require('@clark/utils/knex');
+const dbSetup = require('@bubot/db-setup');
+const knex = require('@bubot/utils/knex');
 
 const ecosystem = require('./ecosystem.config');
 const { http, pm2 } = require('./utils');

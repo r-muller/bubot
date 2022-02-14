@@ -9,7 +9,7 @@ const routes = new Router('routerApiTounamentUser');
  * t:user add :extrefId
  */
 routes.add('/user/add/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
-  console.log('🚀 ~ file: user.routes.js ~ line 24 ~ routes.add ~ context', context.reqParams);
+  console.log('🚀 ~ file: user.routes.js ~ line 24 ~ routes.add ~ context', context);
 
   return Promise.resolve()
     .then(() => UserControllers.create(context))

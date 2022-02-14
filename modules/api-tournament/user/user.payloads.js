@@ -13,8 +13,8 @@ class UserPayloads {
         discriminator,
       }))
       .then(context.$$mergeAndForward('payload'))
-      .then((payload) => {
-        console.log('🚀 ~ file: user.payloads.js ~ line 17 ~ UserPayloads ~ .then ~ payload', payload);
+      .then(() => {
+        console.log('🚀 ~ file: user.payloads.js ~ line 17 ~ UserPayloads ~ .then ~ context.payload', context.payload);
       });
   }
 

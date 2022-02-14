@@ -11,7 +11,7 @@ const {
 let knexConf;
 switch (process.env.NODE_ENV) {
   case 'test':
-    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host} in database ${database} with user ${user}`);
+    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host}:${port} in database ${database} with user ${user}`);
     knexConf = {
       debug: false,
       client: 'postgres',
@@ -28,7 +28,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   case 'development':
-    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host} in database ${database} with user ${user}`);
+    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host}:${port} in database ${database} with user ${user}`);
     knexConf = {
       debug: false,
       client: 'postgres',
@@ -44,7 +44,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   case 'production':
-    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host} in database ${database} with user ${user}`);
+    console.log(`Env: ${process.env.NODE_ENV} -> knex run postgres on ${host}:${port} in database ${database} with user ${user}`);
     knexConf = {
       debug: false,
       client: 'postgres',
