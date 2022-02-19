@@ -1,5 +1,5 @@
 const {
-  mentionUser,
+  contextUserMention,
 } = require('@bubot/utils/MessageBuilder');
 
 const reactions = () => (context) => {
@@ -17,25 +17,25 @@ const sendWandre = (context) => {
 function wandreSentences(context, random) {
   switch (random) {
     case 0:
-      return (`Why do u talk so much ${mentionUser(context)} :o`);
+      return (`Why do u talk so much ${contextUserMention(context)} :o`);
     case 1:
-      return (`${mentionUser(context)} pffffff`);
+      return (`${contextUserMention(context)} pffffff`);
     case 2:
-      return (`${mentionUser(context)} no comment.`);
+      return (`${contextUserMention(context)} no comment.`);
     case 3:
-      return (`plz ${mentionUser(context)} :(`);
+      return (`plz ${contextUserMention(context)} :(`);
     case 4:
-      return (`${mentionUser(context)} need a pro tip? be smart !`);
+      return (`${contextUserMention(context)} need a pro tip? be smart !`);
     case 5:
-      return (`${mentionUser(context)} le pion de fac`);
+      return (`${contextUserMention(context)} le pion de fac`);
     case 6:
-      return (`${mentionUser(context)} petit empoilé...`);
+      return (`${contextUserMention(context)} petit empoilé...`);
     case 7:
-      return (`${mentionUser(context)} stupide hobbit joufflu !`);
+      return (`${contextUserMention(context)} stupide hobbit joufflu !`);
     case 8:
-      return (`${mentionUser(context)} roooo tu pues le gymnase !`);
+      return (`${contextUserMention(context)} roooo tu pues le gymnase !`);
     case 9:
-      return (`${mentionUser(context)} ton pere le chauve !`);
+      return (`${contextUserMention(context)} ton pere le chauve !`);
     default:
       return undefined;
   }

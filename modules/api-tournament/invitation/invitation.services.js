@@ -1,32 +1,18 @@
-const User = require('../../data-dealer/User');
+const Invitation = require('@bubot/data-dealer/Invitation');
 
-module.exports = class UserServices {
+module.exports = class InvitationServices {
   /**
    * [get description]
    *
    * @method get
    * @param  {Object} payload
-   * @param  {Number} payload.uid
+   * @param  {Number} payload.iid
    * @param  {Knex}    trx        knex transaction
    * @return {promise}
    */
-  static get({ payload: { uid }, trx }) {
-    return User.query(trx)
-      .findById(uid)
-      .withGraphJoined('[invitations]');
-  }
-
-  /**
-   * [report description]
-   *
-   * @method report
-   * @param  {Object} httpQuery
-   * @param  {Knex}    trx        knex transaction
-   * @return {promise}
-   */
-  static report({ trx }) {
-    return User.query(trx)
-      .withGraphJoined('rank');
+  static get({ payload: { iid }, trx }) {
+    return Invitation.query(trx)
+      .findById(iid);
   }
 
   /**
@@ -39,7 +25,7 @@ module.exports = class UserServices {
    * @return  {promise}
    */
   static create({ payload, trx }) {
-    return User.query(trx)
+    return Invitation.query(trx)
       .insertAndFetch(payload);
   }
 
@@ -52,9 +38,9 @@ module.exports = class UserServices {
    *
    * @return  {promise}
    */
-  static update({ payload: { extrefId, ...payload }, trx }) {
-    return User.query(trx)
-      .where('extrefId', extrefId)
+  static update({ payload: { iid, ...payload }, trx }) {
+    return Invitation.query(trx)
+      .where('iid', iid)
       .updateAndFetch(payload);
   }
 
@@ -67,9 +53,9 @@ module.exports = class UserServices {
    *
    * @return  {promise}
    */
-  static deleteByExtrefId({ payload: { extrefId }, trx }) {
-    return User.query(trx)
-      .where('extrefId', extrefId)
+  static delete({ payload: { iid }, trx }) {
+    return Invitation.query(trx)
+      .where('iid', iid)
       .delete();
   }
 };

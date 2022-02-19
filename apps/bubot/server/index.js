@@ -1,5 +1,5 @@
 /* eslint-disable no-multi-spaces */
-/* LANCE LE SERVEUR AVEC : npm start */
+/* LANCE LE SERVEUR AVEC : yarn start:local */
 
 /**
 * INVITE LE BOT AVEC CE LIEN

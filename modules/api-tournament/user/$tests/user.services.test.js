@@ -14,10 +14,8 @@ describe('[Services] TournamentApiUser', () => {
     it('Should return proper dataset', () => UserServices
       .report({})
       .then((users) => {
-        console.log('🚀 ~ file: user.services.test.js ~ line 17 ~ .then ~ users', users);
         expect(users.length).to.be.greaterThanOrEqual(1);
         users.forEach((user) => {
-          console.log('🚀 ~ file: user.services.test.js ~ line 22 ~ users.forEach ~ user', user);
           expect(UserWithRankNestingNewDataSc.validate(user).error).to.be.equal(undefined);
         });
       }));

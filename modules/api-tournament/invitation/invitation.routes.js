@@ -1,7 +1,7 @@
 const Router = require('@bubot/utils/Router');
 const { ReqParamsMW } = require('@bubot/utils/MiddleWare');
 
-const UserControllers = require('./invitation.controllers');
+const InvitationControllers = require('./invitation.controllers');
 
 const routes = new Router('routerApiTounamentInvitation');
 
@@ -12,7 +12,7 @@ routes.add('/invit/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
   console.log('🚀 ~ file: user.routes.js ~ line 24 ~ routes.add ~ context', context.reqParams);
 
   return Promise.resolve()
-    .then(() => UserControllers.create(context))
+    .then(() => InvitationControllers.create(context))
     .then((newData) => {
       console.log('🚀 ~ file: user.routes.js ~ line 40 ~ .then ~ newData', newData);
     })
@@ -22,13 +22,13 @@ routes.add('/invit/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
 });
 
 /**
- * t:invite :iid :
+ * t:invite :iid :answer
  */
-routes.add('/user/update/:extrefId/rank/:rank', ReqParamsMW({ useTrx: true }), (context) => {
+routes.add('/invite/:iid/:extrefId', ReqParamsMW({ useTrx: true }), (context) => {
   console.log('🚀 ~ file: user.routes.js ~ line 50 ~ routes.add ~ context', context.reqParams);
 
   return Promise.resolve()
-    .then(() => UserControllers.update(context))
+    .then(() => InvitationControllers.update(context))
     .then((newData) => {
       console.log('🚀 ~ file: user.routes.js ~ line 68 ~ .then ~ newData', newData);
     })

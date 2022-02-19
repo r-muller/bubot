@@ -1,13 +1,14 @@
 /* eslint-disable no-process-exit */
-const User = require('@bubot/data-dealer/User');
+const Invitation = require('@bubot/data-dealer/Invitation');
+const moment = require('moment');
 
 const payload = {
-  username: 'Acri',
-  discriminator: '0317',
-  extrefId: '<@!226722927838625791>',
+  status: 'DELIVRED',
+  createdOn: moment().format(),
+  endedOn: null,
 };
 
-const query = User.query()
+const query = Invitation.query()
   .insertAndFetch(payload);
 
 Promise.resolve()

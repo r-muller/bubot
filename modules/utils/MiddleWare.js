@@ -23,13 +23,14 @@ function ReqParamsMW({ useTrx = false } = {}) {
 
     console.log('🚀 ~ file: MiddleWare.js ~ line 32 ~ return ~ Model', Model);
     if (useTrx) {
-      return Promise.resolve()
-        .then(() => Model.startTransaction())
-        .then((trx) => {
-          console.log('🚀 ~ file: MiddleWare.js ~ line 32 ~ return ~ context', context);
-          context.$$mergeContext({ reqParams, hasTrx: true, trx });
-          return context;
-        });
+      console.log('@todo: trx transaction for best security');
+      // return Promise.resolve()
+      //   .then(() => Model.startTransaction())
+      //   .then((trx) => {
+      //     console.log('🚀 ~ file: MiddleWare.js ~ line 32 ~ return ~ context', context);
+      //     context.$$mergeContext({ reqParams, hasTrx: true, trx });
+      //     return context;
+      //   });
     }
 
     context.$$mergeContext({ reqParams });
