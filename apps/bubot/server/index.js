@@ -1,15 +1,19 @@
+/* eslint-disable max-len */
 /* eslint-disable no-multi-spaces */
 /* LANCE LE SERVEUR AVEC : yarn start:local */
 
 /**
 * INVITE LE BOT AVEC CE LIEN
-* https://discord.com/oauth2/authorize?client_id=917404112352575519&permissions=8&scope=bot
+* https://discord.com/api/oauth2/authorize?client_id=917404112352575519&permissions=8&scope=bot%20applications.commands
 */
 
 const {
   DISCORD_token: token,
+  DISCORD_clientId: clientId,
 } = process.env;
 
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const { Client, Intents } = require('discord.js');
 const Context = require('@bubot/utils/Context');
 // const Worker = require('../../../modules/utils/Worker');
@@ -44,13 +48,22 @@ const client = new Client({
 
 function startDiscordServer(dsClient) {
   return Promise.resolve()
+    .then(() => {
+      const rest = new REST({ version: '9' }).setToken(token);
+      const commands = require('./slashCommands');
+      console.log('🚀 ~ file: index.js ~ line 53 ~ .then ~ commands', commands);
+
+      return rest.put(Routes.applicationCommands(clientId), { body: commands })
+        .then(() => console.log('Successfully registered application commands.'))
+        .catch(console.error);
+    })
     .then(() => dsClient.login(token))
     .then(() => dsClient.on('ready', () => {
       const Guilds = dsClient.guilds.cache.map(guild => guild.id);
       console.log('Connected to:', Guilds);
       console.log('Logged in as: ', dsClient.user.tag);
     }))
-    .then(() => dsClient.on('messageCreate',  commandsRouter))
+    // .then(() => dsClient.on('messageCreate',  commandsRouter))
 
   /**
    * @todo

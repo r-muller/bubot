@@ -5,7 +5,7 @@ const { UserNewDataSc, UserWithRankNestingNewDataSc } = require('../../$schema/u
 const UserServices = require('../user.services');
 const Context = require('../../../utils/Context');
 
-describe('[Services] TournamentApiUser', () => {
+describe('[Api-tournament][Services] TournamentApiUser', () => {
   describe('report()', () => {
     const testContext = Context.of({});
 

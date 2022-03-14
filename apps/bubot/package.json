@@ -15,7 +15,7 @@
     "test:local:query": "env-cmd --fallback -f .env.test node ../../modules/draft-query/index.js",
     "ddg:local": "env-cmd --fallback -f .env.test node ../../modules/data-dealer-generator/index.js && yarn",
     "dbsetup:local": "env-cmd --fallback -f .env.test node ../../modules/db-setup/run.js",
-    "setup-interactions": "env-cmd --fallback -f .env.test node ../../modules/api-interaction/interactions-setup.js"
+    "itsetup": "env-cmd --fallback -f .env.test node ../../modules/api-interaction/interactions-setup.js"
   },
   "runTestConfig": {
     "setup": "./setup-test/start.js",
