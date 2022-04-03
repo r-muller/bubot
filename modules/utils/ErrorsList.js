@@ -54,6 +54,7 @@ class ForbiddenError extends ErrorGenerator {
 }
 class NotFoundError extends ErrorGenerator {
   constructor(message) {
+    console.log('🚀 ~ file: ErrorsList.js ~ line 57 ~ NotFoundError ~ constructor ~ message', message);
     super(message || 'NotFound', 404, 'critic');
   }
 }

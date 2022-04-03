@@ -20,7 +20,7 @@ const Context = require('@bubot/utils/Context');
 
 const commandsRouter = require('./router');
 
-const interactions = require('../../../modules/api-interaction');
+const interactionsOn = require('../../../modules/api-interaction');
 
 // Initialize Bot
 const client = new Client({
@@ -51,7 +51,9 @@ function startDiscordServer(dsClient) {
     .then(() => {
       const rest = new REST({ version: '9' }).setToken(token);
       const commands = require('./slashCommands');
-      console.log('🚀 ~ file: index.js ~ line 53 ~ .then ~ commands', commands);
+      commands.forEach((command) => {
+        console.log('🚀 ~ file: index.js ~ line 55 ~ .then ~ commands', command);
+      });
 
       return rest.put(Routes.applicationCommands(clientId), { body: commands })
         .then(() => console.log('Successfully registered application commands.'))
@@ -69,7 +71,7 @@ function startDiscordServer(dsClient) {
    * @todo
    * faire le MiddleWare pour les interactions
    */
-    .then(() => dsClient.on('interactionCreate', interaction => interactions(Context.of({ interaction }))));
+    .then(() => dsClient.on('interactionCreate', interaction => interactionsOn(Context.of({ interaction }))));
 }
 
 startDiscordServer(client);

@@ -26,7 +26,9 @@ module.exports = class InvitationServices {
    */
   static create({ payload, trx }) {
     return Invitation.query(trx)
-      .insertAndFetch(payload);
+      .insertGraphAndFetch(payload, {
+        insertMissing: ['hasUser'],
+      });
   }
 
   /**

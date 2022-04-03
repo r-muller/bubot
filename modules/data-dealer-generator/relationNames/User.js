@@ -3,6 +3,6 @@ module.exports = {
     rename: 'hasInvitation',
   },
   fromUserTableUidToUserRankTableUserUid: {
-    rename: 'rank',
+    rename: 'userRank',
   },
 };

@@ -201,9 +201,9 @@ COPY public.invitation (iid, status, created_on, ended_on) FROM stdin;
 --
 
 COPY public."user" (uid, username, discriminator, extref_id) FROM stdin;
-1	Acri	0317	<@!226722927838625791>
-2	Quoko	0317	<@!226722927838625792>
-3	Xala	0317	<@!226722927838625793>
+1	Acri	0317	226722927838625791
+2	Quoko	0317	226722927838625792
+3	Xala	0317	226722927838625793
 \.
 
 

@@ -10,6 +10,19 @@ const InvitationBaseSc = Joi.object().keys({
   endedOn: Joi.date().allow(null).required(),
 });
 
+const InvitationNewDataSc = InvitationBaseSc.concat(IidSc);
+
+const InvitationWithUserNestingNewDataSc = Joi.object().keys({
+  hasUser: Joi.array().items(
+    Joi.object().keys({
+      userUid: Joi.number().required(),
+      isOwner: Joi.bool().required(),
+      invitationIid: Joi.number().required(),
+    }).required()
+  ).required(),
+}).concat(InvitationNewDataSc);
+
 module.exports = {
-  InvitationNewDataSc: InvitationBaseSc.concat(IidSc),
+  InvitationNewDataSc,
+  InvitationWithUserNestingNewDataSc,
 };

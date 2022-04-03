@@ -1,5 +1,6 @@
 const interactions = [
   require('@bubot/api-tournament/user/user.interactions'),
+  require('@bubot/api-tournament/invitation/invitation.interactions'),
 ];
 
 const commands = interactions.reduce((acc, interaction) => {

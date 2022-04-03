@@ -1,4 +1,4 @@
-class UserPayloads {
+module.exports = class InvitationPayloads {
   static Post(context) {
     const { interaction: { options } } = context;
 
@@ -6,8 +6,6 @@ class UserPayloads {
       .then(() => {
         const guildMember = options.getMember('username');
         return {
-          username: guildMember.user.username,
-          discriminator: guildMember.user.discriminator,
           extrefId: guildMember.user.id,
         };
       })
@@ -29,6 +27,4 @@ class UserPayloads {
       })
       .then(context.$$mergeAndForward('payload'));
   }
-}
-
-module.exports = UserPayloads;
+};

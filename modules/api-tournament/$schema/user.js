@@ -16,12 +16,13 @@ const UserBaseSc = Joi.object().keys({
 }).concat(UserExtrefIdSc);
 
 const UserWithRankNestingNewDataSc = Joi.object().keys({
-  rank: Joi.array().items(UserRankNewDataSc).required(),
+  userRank: Joi.array().items(UserRankNewDataSc.required()).required(),
 }).concat(UserBaseSc).concat(UidSc);
 
 module.exports = {
   UidSc,
   UserBaseSc,
+  UserExtrefIdSc,
   UserNewDataSc: UserBaseSc.concat(UidSc),
   UserWithRankNestingNewDataSc,
 };

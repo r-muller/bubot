@@ -1,19 +1,28 @@
+const { hasProperty } = require('@bubot/utils/helpers');
 const User = require('../../data-dealer/User');
 
 module.exports = class UserServices {
   /**
-   * [get description]
+   * [getByExtrefId description]
    *
-   * @method get
+   * @method getByExtrefId
    * @param  {Object} payload
-   * @param  {Number} payload.uid
+   * @param  {Number} payload.extrefId
+   * @param  {Object} httpQuery
    * @param  {Knex}    trx        knex transaction
    * @return {promise}
    */
-  static get({ payload: { uid }, trx }) {
-    return User.query(trx)
-      .findById(uid)
-      .withGraphJoined('[invitations]');
+  static getByExtrefId({ payload: { extrefId }, httpQuery, trx }) {
+    const query = User.query(trx)
+      .findOne({ extrefId });
+
+    if (httpQuery) {
+      if (hasProperty(httpQuery, 'invitation')) {
+        query.withGraphJoined('[invitations]');
+      }
+    }
+
+    return query;
   }
 
   /**
@@ -24,9 +33,16 @@ module.exports = class UserServices {
    * @param  {Knex}    trx        knex transaction
    * @return {promise}
    */
-  static report({ trx }) {
-    return User.query(trx)
-      .withGraphJoined('rank');
+  static report({ httpQuery, trx }) {
+    const query = User.query(trx);
+
+    if (httpQuery) {
+      if (hasProperty(httpQuery, 'rank')) {
+        query.withGraphJoined('userRank');
+      }
+    }
+
+    return query;
   }
 
   /**
@@ -52,10 +68,9 @@ module.exports = class UserServices {
    *
    * @return  {promise}
    */
-  static update({ payload: { extrefId, ...payload }, trx }) {
+  static update({ payload, trx }) {
     return User.query(trx)
-      .where('extrefId', extrefId)
-      .updateAndFetch(payload);
+      .upsertGraphAndFetch(payload);
   }
 
   /**

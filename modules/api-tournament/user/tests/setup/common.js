@@ -7,8 +7,8 @@ module.exports = class Setup extends Action {
       const context = this.context();
       const dataset = () => ({
         username: 'tournementApiUserUsername',
-        discriminator: '000000',
-        extrefId: '<!tournementApiUserExtrefId>',
+        discriminator: '00000',
+        extrefId: '1234554321',
       });
 
       return User.query()

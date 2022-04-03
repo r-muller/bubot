@@ -53,11 +53,11 @@ describe('Loadbalancing tests', () => {
      * @route PUT /channelGroup/template
      */
     describe('PUT  x20', () => {
-      const makePaylaod = require('@clark/clark-api/channelGroup/template/$test/dataset/update');
+      const makepayload = require('@clark/clark-api/channelGroup/template/$test/dataset/update');
       const testContext = Context.of({ titles: [] });
 
       before(() => {
-        const { tid, cgid, ...payload } = makePaylaod({ newData: { tid: 'testid' } });
+        const { tid, cgid, ...payload } = makepayload({ newData: { tid: 'testid' } });
         return knex('template')
           .insert(payload)
           .returning('*')
@@ -66,7 +66,7 @@ describe('Loadbalancing tests', () => {
 
       it('Updatess same template 20 times concurrently', () => Promise.all(
         new Array(20).fill().map((_, i) => {
-          const { cgid, tid, ...payload } = makePaylaod(testContext, `Coucou${i}`);
+          const { cgid, tid, ...payload } = makepayload(testContext, `Coucou${i}`);
           // save title for later validation
           testContext.titles.push(payload.title);
 
